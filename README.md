@@ -27,13 +27,6 @@ enum Nightshade: CaseIterable {
 then in code we can directly refer to the ID of the case.
 
 ```swift
-print("Names and counts of nightshade varieties")
-for (nightShade in Nightshade.allCases) {
-  print("\(nightShade.id.rawValue): \(nightShade.count)")
-}
-```
-
-```swift
 let romaTomato = Nightshade.tomato(.roma)
 XCTAssertEquals(romaTomato.id, .tomato)
 ```

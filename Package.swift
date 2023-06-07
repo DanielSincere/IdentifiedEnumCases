@@ -12,8 +12,12 @@ let package = Package(
             targets: ["IdentifiedEnumCases"]
         ),
         .executable(
-            name: "example",
-            targets: ["Example"]
+            name: "urls",
+            targets: ["URLsExample"]
+        ),
+        .executable(
+            name: "nightshades",
+            targets: ["NightshadesExample"]
         ),
     ],
     dependencies: [
@@ -34,7 +38,8 @@ let package = Package(
         .target(name: "IdentifiedEnumCases", dependencies: ["IdentifiedEnumCasesMacro"]),
 
         // An example usage of the library, which is able to use the macro in its own code.
-        .executableTarget(name: "Example", dependencies: ["IdentifiedEnumCases"]),
+        .executableTarget(name: "URLsExample", dependencies: ["IdentifiedEnumCases"]),
+        .executableTarget(name: "NightshadesExample", dependencies: ["IdentifiedEnumCases"]),
 
         // A test target used to develop the macro implementation.
         .testTarget(
