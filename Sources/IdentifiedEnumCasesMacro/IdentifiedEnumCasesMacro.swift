@@ -68,7 +68,7 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
       case .mustBeEnum:
         return "`@IdentifiedEnumCasesMacro` can only be applied to an `enum`"
       case .mustHaveCases:
-        return "This `enum` must have `case` statements"
+        return "`@IdentifiedEnumCasesMacro` can only be applied to an `enum` with `case` statements"
       }
     }
     

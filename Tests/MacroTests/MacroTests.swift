@@ -78,7 +78,7 @@ final class MacroTests: XCTestCase {
   func testEnumMustHaveCasesDiagnostic() {
     assertMacroExpansion("@IdentifiedEnumCases enum Tomato {}",
                          expandedSource: "enum Tomato {\n}",
-                         diagnostics: [DiagnosticSpec(message: "This `enum` must have `case` statements", line: 1, column: 1)],
+                         diagnostics: [DiagnosticSpec(message: "`@IdentifiedEnumCasesMacro` can only be applied to an `enum` with `case` statements", line: 1, column: 1)],
                          macros: testMacros)
   }
 }
