@@ -56,6 +56,53 @@ final class MacroTests: XCTestCase {
             macros: testMacros
     )
   }
+  
+  func testPublicMacro() {
+    assertMacroExpansion(
+          """
+          @IdentifiedEnumCases
+          public enum Nightshade {
+            case potato(PotatoVariety), tomato(TomatoVariety)
+            case eggplant(EggplantVariety)
+          
+            public enum PotatoVariety {}
+            public enum TomatoVariety {}
+            public enum EggplantVariety {}
+          }
+          """,
+          expandedSource:
+          """
+          
+          public enum Nightshade {
+            case potato(PotatoVariety), tomato(TomatoVariety)
+            case eggplant(EggplantVariety)
+          
+            public enum PotatoVariety {
+            }
+            public enum TomatoVariety {
+            }
+            public enum EggplantVariety {
+            }
+            public enum ID: String, Equatable, CaseIterable {
+              case potato
+              case tomato
+              case eggplant
+            }
+            public var id: ID {
+              switch self {
+              case .potato:
+                .potato
+              case .tomato:
+                .tomato
+              case .eggplant:
+                .eggplant
+              }
+            }
+          }
+          """,
+          macros: testMacros
+    )
+  }
     
   func testMustBeEnumDiagnostic() {
     assertMacroExpansion("@IdentifiedEnumCases struct Tomato {}",
