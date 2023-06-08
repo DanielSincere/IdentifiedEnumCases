@@ -26,11 +26,79 @@ enum Nightshade {
 }
 ```
 
+generates to 
+
+```swift
+enum Nightshade {
+  case potato(PotatoVariety), tomato(TomatoVariety)
+  case chili(ChiliVariety)
+
+  enum PotatoVariety: CaseIterable {
+    case russet, yukonGold, kennebec
+  }
+  
+  enum TomatoVariety: CaseIterable {
+    case roma, heirloom, cherry
+  }
+  
+  enum ChiliVariety: CaseIterable {
+    case jalapeño, arbol, habenero
+  }
+  
+  var id: ID {
+    switch self {
+    case .jalapeño: .jalapeño
+    case .arbol: .arbol
+    case .habenero: .habenero
+    }
+  }
+  
+  enum ID: String, Hashable, CaseIterable {
+    case potato, tomato, jalapeño
+  }
+}
+```
+
 then in code we can directly refer to the ID of the case.
 
 ```swift
 let romaTomato = Nightshade.tomato(.roma)
 XCTAssertEquals(romaTomato.id, .tomato)
+```
+
+## Public visibility
+
+If the enum is `public`, the generated `ID` enum and the
+generated `id` accessor will also be `public`. For example,
+
+```swift
+import IdentifiedEnumCases
+
+@IdentifiedEnumCases
+public enum AppRoute {
+  case item(ItemRoute)
+  case user(UserRoute)
+}
+```
+
+generates to
+
+```swift
+public enum AppRoute {
+  case item(ItemRoute)
+  case user(UserRoute)
+
+  public var id: ID {
+    switch self {
+    case .item: .item
+    case .user: .user
+  }
+
+  public enum ID: String, Hashable, CaseIterable {
+    case item
+    case user
+  }
+}
 ```
 
 ## Installation
@@ -42,7 +110,7 @@ In `Package.swift`, add the package to your dependencies.
 
 And add `"IdentifiedEnumCases"` to the list of your target's dependencies.
 
-You may need to trust and enable macro in Xcode.
+When prompted by Xcode, trust the macro.
 
 
 ## Swift macros?

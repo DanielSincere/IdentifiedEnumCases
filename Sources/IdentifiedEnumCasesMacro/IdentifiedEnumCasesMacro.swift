@@ -17,7 +17,6 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
         return []
       }
       
-      
       guard let enumCases: [SyntaxProtocol] = declaration.memberBlock
         .children(viewMode: .fixedUp).filter({ $0.kind == .memberDeclList })
         .first?
@@ -49,10 +48,10 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
         return []
       }
       
-      let enumID = "enum ID: String, Equatable, CaseIterable {\n\(caseIds.map { "  case \($0)\n" }.joined())}"
+      let enumID = "enum ID: String, Hashable, CaseIterable {\n\(caseIds.map { "  case \($0)\n" }.joined())}"
       let idAccessor = "var id: ID {\n  switch self {\n\(caseIds.map { "  case .\($0): .\($0)\n" }.joined())  }\n}"
       
-      return if declaration.isPublic {
+      return if declaration.hasPublicModifier {
         [
           DeclSyntax(stringLiteral: "public \(enumID)"),
           DeclSyntax(stringLiteral: "public \(idAccessor)")
@@ -87,7 +86,7 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
 }
 
 private extension DeclGroupSyntax {
-  var isPublic: Bool {
+  var hasPublicModifier: Bool {
     let keywords: [Keyword] = {
       if let modifiers = self.modifiers {
         return modifiers.children(viewMode: .fixedUp).flatMap { syntax in
