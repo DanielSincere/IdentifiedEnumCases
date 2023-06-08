@@ -12,7 +12,7 @@ import IdentifiedEnumCases
 @IdentifiedEnumCases
 enum Nightshade {
   case potato(PotatoVariety), tomato(TomatoVariety)
-  case eggplant(EggplantVariety)
+  case chili(ChiliVariety)
 
   enum PotatoVariety: CaseIterable {
     case russet, yukonGold, kennebec
@@ -20,8 +20,8 @@ enum Nightshade {
   enum TomatoVariety: CaseIterable {
     case roma, heirloom, cherry
   }
-  enum EggplantVariety: CaseIterable {
-    case fairyTale
+  enum ChiliVariety: CaseIterable {
+    case jalapeño, arbol, habenero
   }
 }
 ```
