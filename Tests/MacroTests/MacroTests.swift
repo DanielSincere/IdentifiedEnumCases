@@ -36,7 +36,7 @@ final class MacroTests: XCTestCase {
               }
               enum EggplantVariety {
               }
-              enum ID: String, Equatable, CaseIterable {
+              enum ID: String, Hashable, CaseIterable {
                 case potato
                 case tomato
                 case eggplant
@@ -83,7 +83,7 @@ final class MacroTests: XCTestCase {
             }
             public enum EggplantVariety {
             }
-            public enum ID: String, Equatable, CaseIterable {
+            public enum ID: String, Hashable, CaseIterable {
               case potato
               case tomato
               case eggplant
