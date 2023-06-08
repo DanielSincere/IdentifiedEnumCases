@@ -1,4 +1,4 @@
-# IdentifiedEnumCases
+# IdentifiedEnumCases Swift Macro
 
 When an Swift enumeration has associated values, its cases can't be referenced as code. It would be so nice to reference the names of cases, even when an associated value isn't known.
 
@@ -32,6 +32,10 @@ then in code we can directly refer to the ID of the case.
 let romaTomato = Nightshade.tomato(.roma)
 XCTAssertEquals(romaTomato.id, .tomato)
 ```
+
+## Swift macros?
+
+Introduced at WWDC '23, requiring Swift 5.9
 
 ## License
 
