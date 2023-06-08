@@ -7,8 +7,10 @@ This macro creates an `ID` enum, to refer to each case. In addition, it also cre
 In my past projects, I've typed this up by manually each time. But now with Swift Macros, it's easy! The Swift enumeration just needs an annotation, and identifiers for each case will be created!
 
 ```swift
+import IdentifiedEnumCases
+
 @IdentifiedEnumCases
-enum Nightshade: CaseIterable {
+enum Nightshade {
   case potato(PotatoVariety), tomato(TomatoVariety)
   case eggplant(EggplantVariety)
 
