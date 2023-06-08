@@ -26,7 +26,14 @@ enum Nightshade {
 }
 ```
 
-generates to 
+then in code we can directly refer to the ID of the case.
+
+```swift
+let romaTomato = Nightshade.tomato(.roma)
+XCTAssertEquals(romaTomato.id, .tomato)
+```
+
+because the macro generates to 
 
 ```swift
 enum Nightshade {
@@ -59,12 +66,7 @@ enum Nightshade {
 }
 ```
 
-then in code we can directly refer to the ID of the case.
-
-```swift
-let romaTomato = Nightshade.tomato(.roma)
-XCTAssertEquals(romaTomato.id, .tomato)
-```
+Very exciting!
 
 ## Public visibility
 
