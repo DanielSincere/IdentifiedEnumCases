@@ -87,24 +87,24 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
 
 private extension DeclGroupSyntax {
   var hasPublicModifier: Bool {
-    let keywords: [Keyword] = {
-      if let modifiers = self.modifiers {
-        return modifiers.children(viewMode: .fixedUp).flatMap { syntax in
-          return syntax.as(DeclModifierSyntax.self)?.children(viewMode: .fixedUp).compactMap({ syntax in
+    guard let modifiers = self.modifiers else {
+      return false
+    }
+    
+    return modifiers.children(viewMode: .fixedUp)
+      .compactMap { syntax in
+        syntax.as(DeclModifierSyntax.self)?
+          .children(viewMode: .fixedUp)
+          .contains { syntax in
             switch syntax.as(TokenSyntax.self)?.tokenKind {
             case .keyword(.public):
-              return Keyword.public
+              return true
             default:
-              return nil
+              return false
             }
-          }) ?? []
-        }
-      } else {
-        return []
+          }
       }
-    }()
-    
-    return keywords.contains(Keyword.public)
+      .contains(true)
   }
 }
 
