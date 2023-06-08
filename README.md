@@ -54,9 +54,9 @@ enum Nightshade {
   
   var id: ID {
     switch self {
-    case .jalapeño: .jalapeño
-    case .arbol: .arbol
-    case .habenero: .habenero
+    case .potato: .potato
+    case .tomato: .tomato
+    case .chili: .chili
     }
   }
   
