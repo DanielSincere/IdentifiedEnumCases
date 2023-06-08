@@ -33,6 +33,18 @@ let romaTomato = Nightshade.tomato(.roma)
 XCTAssertEquals(romaTomato.id, .tomato)
 ```
 
+## Installation
+
+In `Package.swift`, add the package to your dependencies.
+```
+.package(url: "https://github.com/FullQueueDeveloper/IdentifiedEnumCases.git", from: "0.1.1"),
+```
+
+And add `"IdentifiedEnumCases"` to the list of your target's dependencies.
+
+You may need to trust and enable macro in Xcode.
+
+
 ## Swift macros?
 
 Introduced at WWDC '23, requiring Swift 5.9
