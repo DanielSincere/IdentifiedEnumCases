@@ -1,11 +1,11 @@
 import Foundation
 
 extension AppRoute {
-  
+
   func url(with root: URL) -> URL {
     URL(string: self.urlComponents.joined(separator: "/"), relativeTo: root)!.absoluteURL
   }
-  
+
   var urlComponents: [String] {
     switch self {
     case .item(let itemRoute):
@@ -17,7 +17,7 @@ extension AppRoute {
 }
 
 extension ItemRoute {
-  
+
   var urlComponents: [String] {
     switch self {
     case .filter(let filter):

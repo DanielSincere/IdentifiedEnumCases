@@ -1,11 +1,8 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
-
 /// A macro that creates named cases for an enum. Helpful
 /// when the enum has an associated value.
 /// For example,
 ///
-///     @NamedCases
+///     @IdentifiedEnumCases
 ///     enum AppRoute {
 ///       case item(ItemRoute)
 ///       case user(UserRoute)

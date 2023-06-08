@@ -42,11 +42,11 @@ final class MacroTests: XCTestCase {
               var id: ID {
                 switch self {
                 case .potato:
-                  return .potato
+                  .potato
                 case .tomato:
-                  return .tomato
+                  .tomato
                 case .eggplant:
-                  return .eggplant
+                  .eggplant
                 }
               }
             }

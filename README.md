@@ -32,3 +32,7 @@ then in code we can directly refer to the ID of the case.
 let romaTomato = Nightshade.tomato(.roma)
 XCTAssertEquals(romaTomato.id, .tomato)
 ```
+
+## License
+
+[BSD-3-Clause](https://opensource.org/license/bsd-3-clause/)

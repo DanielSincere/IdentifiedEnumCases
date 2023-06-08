@@ -1,6 +1,5 @@
 import Foundation
 
-
 let production: URL = URL(string: "https://www.example.com")!
 let staging: URL = URL(string: "https://staging-www.example.com")!
 

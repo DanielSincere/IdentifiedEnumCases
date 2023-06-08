@@ -14,7 +14,7 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
         throw Errors.mustBeAnEnum
       }
 
-      guard let enumCases = declaration.memberBlock
+      guard let enumCases: [SyntaxProtocol] = declaration.memberBlock
         .children(viewMode: .fixedUp)
         .filter({ $0.kind == .memberDeclList })
         .first?
@@ -31,25 +31,24 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
         guard let firstToken = enumCase.firstToken(viewMode: .fixedUp) else {
           return nil
         }
-        if case let .identifier(id) = firstToken.tokenKind {
-          //          return firstToken.tokenKind
-          return id
-        } else {
+
+        guard case let .identifier(id) = firstToken.tokenKind else {
           return nil
         }
+
+        return id
       }
 
       return [
         DeclSyntax(stringLiteral:
-                   "enum ID: String, Equatable, CaseIterable {\n" +
+                    "enum ID: String, Equatable, CaseIterable {\n" +
                    caseIds.map { "  case \($0)\n" }.joined() +
                    "}"),
         DeclSyntax(stringLiteral: "var id: ID {\n  switch self {\n" +
-                   caseIds.map { "  case .\($0): return .\($0)\n" }.joined() +
+                   caseIds.map { "  case .\($0): .\($0)\n" }.joined() +
                    "  }\n}")
       ]
     }
-
 
   public enum Errors: Error, LocalizedError {
     case mustBeAnEnum
