@@ -11,18 +11,16 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
     providingMembersOf declaration: Declaration,
     in context: Context) throws -> [SwiftSyntax.DeclSyntax] where Declaration : SwiftSyntax.DeclGroupSyntax, Context : SwiftSyntaxMacros.MacroExpansionContext {
       
-      guard declaration.is(EnumDeclSyntax.self) else {
+      guard let declaration = declaration.as(EnumDeclSyntax.self) else {
         let enumError = Diagnostic(node: node._syntaxNode, message: Diagnostics.mustBeEnum)
         context.diagnose(enumError)
         return []
       }
-
+      
       guard let enumCases: [SyntaxProtocol] = declaration.memberBlock
-        .children(viewMode: .fixedUp)
-        .filter({ $0.kind == .memberDeclList })
+        .children(viewMode: .fixedUp).filter({ $0.kind == .memberDeclList })
         .first?
-        .children(viewMode: .fixedUp)
-        .filter({ $0.kind == SyntaxKind.memberDeclListItem })
+        .children(viewMode: .fixedUp).filter({ $0.kind == SyntaxKind.memberDeclListItem })
         .flatMap({ $0.children(viewMode: .fixedUp).filter({ $0.kind == .enumCaseDecl })})
         .flatMap({ $0.children(viewMode: .fixedUp).filter({ $0.kind == .enumCaseElementList })})
         .flatMap({ $0.children(viewMode: .fixedUp).filter({ $0.kind == .enumCaseElement })})
@@ -50,13 +48,20 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
         return []
       }
       
-      let enumID = "enum ID: String, Equatable, CaseIterable {\n\(caseIds.map { "  case \($0)\n" }.joined())}"
+      let enumID = "enum ID: String, Hashable, CaseIterable {\n\(caseIds.map { "  case \($0)\n" }.joined())}"
       let idAccessor = "var id: ID {\n  switch self {\n\(caseIds.map { "  case .\($0): .\($0)\n" }.joined())  }\n}"
       
-      return [
-        DeclSyntax(stringLiteral: enumID),
-        DeclSyntax(stringLiteral: idAccessor)
-      ]
+      return if declaration.hasPublicModifier {
+        [
+          DeclSyntax(stringLiteral: "public \(enumID)"),
+          DeclSyntax(stringLiteral: "public \(idAccessor)")
+        ]
+      } else {
+        [
+          DeclSyntax(stringLiteral: enumID),
+          DeclSyntax(stringLiteral: idAccessor)
+        ]
+      }
     }
   
   public enum Diagnostics: String, DiagnosticMessage {
@@ -77,6 +82,29 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
     }
     
     public var severity: DiagnosticSeverity { .error }
+  }
+}
+
+private extension DeclGroupSyntax {
+  var hasPublicModifier: Bool {
+    let keywords: [Keyword] = {
+      if let modifiers = self.modifiers {
+        return modifiers.children(viewMode: .fixedUp).flatMap { syntax in
+          return syntax.as(DeclModifierSyntax.self)?.children(viewMode: .fixedUp).compactMap({ syntax in
+            switch syntax.as(TokenSyntax.self)?.tokenKind {
+            case .keyword(.public):
+              return Keyword.public
+            default:
+              return nil
+            }
+          }) ?? []
+        }
+      } else {
+        return []
+      }
+    }()
+    
+    return keywords.contains(Keyword.public)
   }
 }
 
