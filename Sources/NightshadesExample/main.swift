@@ -1,6 +1,6 @@
 import IdentifiedEnumCases
 
-@IdentifiedEnumCases
+@IdentifiedEnumCases(visibility: .public)
 enum Nightshade {
   case potato(PotatoVariety), tomato(TomatoVariety)
   case eggplant(EggplantVariety)

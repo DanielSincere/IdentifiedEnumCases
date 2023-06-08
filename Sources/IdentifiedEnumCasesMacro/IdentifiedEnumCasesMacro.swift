@@ -6,10 +6,28 @@ import SwiftDiagnostics
 import Foundation
 
 public struct IdentifiedEnumCasesMacro: MemberMacro {
+  
+  /// An enum to specificy visibility of the generated code.
+  /// By default `@IdentifiedEnumCasesMacro` will not
+  /// generate any visibility modifiers.
+  public enum Visibility: String {
+    /// The generated code will be public
+    case `public`
+    
+    /// The generated code will be private
+    case `private`
+    
+    /// The generated code will be internal
+    case `internal`
+  }
+   
   public static func expansion<Declaration, Context>(
     of node: SwiftSyntax.AttributeSyntax,
     providingMembersOf declaration: Declaration,
     in context: Context) throws -> [SwiftSyntax.DeclSyntax] where Declaration : SwiftSyntax.DeclGroupSyntax, Context : SwiftSyntaxMacros.MacroExpansionContext {
+      
+
+
       
       guard declaration.is(EnumDeclSyntax.self) else {
         let enumError = Diagnostic(node: node._syntaxNode, message: Diagnostics.mustBeEnum)
@@ -53,10 +71,34 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
       let enumID = "enum ID: String, Equatable, CaseIterable {\n\(caseIds.map { "  case \($0)\n" }.joined())}"
       let idAccessor = "var id: ID {\n  switch self {\n\(caseIds.map { "  case .\($0): .\($0)\n" }.joined())  }\n}"
       
-      return [
-        DeclSyntax(stringLiteral: enumID),
-        DeclSyntax(stringLiteral: idAccessor)
-      ]
+      let visibility: Visibility? = node.argument?.tokens(viewMode: .fixedUp).compactMap({ tokenSyntax in
+        return Visibility(rawValue: tokenSyntax.text)
+      }).first
+      
+      switch visibility {
+      case .public:
+        return [
+          DeclSyntax(stringLiteral: "public \(enumID)"),
+          DeclSyntax(stringLiteral: "public \(idAccessor)")
+        ]
+      case .private:
+        return [
+          DeclSyntax(stringLiteral: "private \(enumID)"),
+          DeclSyntax(stringLiteral: "private \(idAccessor)")
+        ]
+      case .internal:
+        return [
+          DeclSyntax(stringLiteral: "internal \(enumID)"),
+          DeclSyntax(stringLiteral: "internal \(idAccessor)")
+        ]
+      case nil:
+        return [
+          DeclSyntax(stringLiteral: enumID),
+          DeclSyntax(stringLiteral: idAccessor)
+        ]
+      }
+      
+ 
     }
   
   public enum Diagnostics: String, DiagnosticMessage {

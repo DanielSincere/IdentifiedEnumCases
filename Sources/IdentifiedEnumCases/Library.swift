@@ -1,3 +1,4 @@
+import IdentifiedEnumCasesMacro
 /// A macro that creates named cases for an enum. Helpful
 /// when the enum has an associated value.
 /// For example,
@@ -9,4 +10,5 @@
 ///     }
 ///
 @attached(member, names: named(ID), named(id))
-public macro IdentifiedEnumCases() -> () = #externalMacro(module: "IdentifiedEnumCasesMacro", type: "IdentifiedEnumCasesMacro")
+public macro IdentifiedEnumCases(visibility: IdentifiedEnumCasesMacro.Visibility? = nil) -> () = #externalMacro(module: "IdentifiedEnumCasesMacro", type: "IdentifiedEnumCasesMacro")
+
