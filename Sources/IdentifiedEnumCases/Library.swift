@@ -29,5 +29,5 @@
 /// If the enum is `public`, the generated `ID` enum and the
 /// generated `id` accessor will also be `public`
 /// 
-@attached(member, names: named(ID), named(id))
+@attached(member, names: named(CaseID), named(caseID))
 public macro IdentifiedEnumCases() -> () = #externalMacro(module: "IdentifiedEnumCasesMacro", type: "IdentifiedEnumCasesMacro")

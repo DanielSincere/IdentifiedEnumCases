@@ -47,21 +47,15 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
         context.diagnose(enumError)
         return []
       }
-      
-      let enumID = "enum ID: String, Hashable, CaseIterable {\n\(caseIds.map { "  case \($0)\n" }.joined())}"
-      let idAccessor = "var id: ID {\n  switch self {\n\(caseIds.map { "  case .\($0): .\($0)\n" }.joined())  }\n}"
-      
-      return if declaration.hasPublicModifier {
-        [
-          DeclSyntax(stringLiteral: "public \(enumID)"),
-          DeclSyntax(stringLiteral: "public \(idAccessor)")
-        ]
-      } else {
-        [
-          DeclSyntax(stringLiteral: enumID),
-          DeclSyntax(stringLiteral: idAccessor)
-        ]
-      }
+
+      let modifier = declaration.hasPublicModifier ? "public " : ""
+      let enumID = "\(modifier)enum CaseID: String, Hashable, CaseIterable, CustomStringConvertible {\n\(caseIds.map { "  case \($0)\n" }.joined())\n  \(modifier)var description: String {\nself.rawValue\n  }\n}"
+      let idAccessor = "\(modifier)var caseID: CaseID {\n  switch self {\n\(caseIds.map { "  case .\($0): .\($0)\n" }.joined())  }\n}"
+
+      return [
+        DeclSyntax(stringLiteral: enumID),
+        DeclSyntax(stringLiteral: idAccessor)
+      ]
     }
   
   public enum Diagnostics: String, DiagnosticMessage {

@@ -17,5 +17,5 @@ enum Nightshade {
 }
 
 let romaTomato = Nightshade.tomato(.roma)
-print("ID equality:", romaTomato.id == Nightshade.ID.tomato)
+print("ID equality:", romaTomato.caseID == Nightshade.CaseID.tomato)
 
