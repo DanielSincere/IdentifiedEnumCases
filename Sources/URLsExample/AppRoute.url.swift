@@ -9,9 +9,9 @@ extension AppRoute {
   var urlComponents: [String] {
     switch self {
     case .item(let itemRoute):
-      [self.id.rawValue] + itemRoute.urlComponents
+      [self.caseID.rawValue] + itemRoute.urlComponents
     case .home, .about, .shop:
-      [self.id.rawValue]
+      [self.caseID.rawValue]
     }
   }
 }
@@ -23,14 +23,14 @@ extension ItemRoute {
     case .filter(let filter):
       switch filter {
       case .all:
-        [self.id.rawValue, filter.id.rawValue]
+        [self.caseID.rawValue, filter.caseID.rawValue]
       case .substring(let string):
-        [self.id.rawValue, filter.id.rawValue, string.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!]
+        [self.caseID.rawValue, filter.caseID.rawValue, string.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!]
       }
     case .new:
-      [self.id.rawValue]
+      [self.caseID.rawValue]
     case .view(let itemId):
-      [self.id.rawValue, itemId.id.uuidString]
+      [self.caseID.rawValue, itemId.id.uuidString]
     }
   }
 }
