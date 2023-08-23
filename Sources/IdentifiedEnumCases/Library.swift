@@ -30,4 +30,4 @@
 /// generated `id` accessor will also be `public`
 /// 
 @attached(member, names: named(CaseID), named(caseID))
-public macro IdentifiedEnumCases() -> () = #externalMacro(module: "IdentifiedEnumCasesMacro", type: "IdentifiedEnumCasesMacro")
+public macro IdentifiedEnumCases() = #externalMacro(module: "IdentifiedEnumCasesMacro", type: "IdentifiedEnumCasesMacro")
