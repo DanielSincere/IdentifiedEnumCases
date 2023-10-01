@@ -30,12 +30,10 @@ final class MacroTests: XCTestCase {
               case potato(PotatoVariety), tomato(TomatoVariety)
               case eggplant(EggplantVariety)
 
-              enum PotatoVariety {
-              }
-              enum TomatoVariety {
-              }
-              enum EggplantVariety {
-              }
+              enum PotatoVariety {}
+              enum TomatoVariety {}
+              enum EggplantVariety {}
+            
               enum CaseID: String, Hashable, CaseIterable, CustomStringConvertible {
                 case potato
                 case tomato
@@ -45,6 +43,7 @@ final class MacroTests: XCTestCase {
                   self.rawValue
                 }
               }
+            
               var caseID: CaseID {
                 switch self {
                 case .potato:
@@ -57,7 +56,8 @@ final class MacroTests: XCTestCase {
               }
             }
             """,
-            macros: testMacros
+            macros: testMacros,
+            indentationWidth: .spaces(2)
     )
   }
   
@@ -81,12 +81,10 @@ final class MacroTests: XCTestCase {
             case potato(PotatoVariety), tomato(TomatoVariety)
             case eggplant(EggplantVariety)
           
-            public enum PotatoVariety {
-            }
-            public enum TomatoVariety {
-            }
-            public enum EggplantVariety {
-            }
+            public enum PotatoVariety {}
+            public enum TomatoVariety {}
+            public enum EggplantVariety {}
+          
             public enum CaseID: String, Hashable, CaseIterable, CustomStringConvertible {
               case potato
               case tomato
@@ -96,6 +94,7 @@ final class MacroTests: XCTestCase {
                 self.rawValue
               }
             }
+          
             public var caseID: CaseID {
               switch self {
               case .potato:
@@ -108,23 +107,24 @@ final class MacroTests: XCTestCase {
             }
           }
           """,
-          macros: testMacros
+          macros: testMacros,
+          indentationWidth: .spaces(2)
     )
   }
     
   func testMustBeEnumDiagnostic() {
     assertMacroExpansion("@IdentifiedEnumCases struct Tomato {}",
-                         expandedSource: "struct Tomato {\n}",
+                         expandedSource: "struct Tomato {}",
                          diagnostics: [DiagnosticSpec(message: "`@IdentifiedEnumCasesMacro` can only be applied to an `enum`", line: 1, column: 1)],
                          macros: testMacros)
     
     assertMacroExpansion("@IdentifiedEnumCases class Tomato {}",
-                         expandedSource: "class Tomato {\n}",
+                         expandedSource: "class Tomato {}",
                          diagnostics: [DiagnosticSpec(message: "`@IdentifiedEnumCasesMacro` can only be applied to an `enum`", line: 1, column: 1)],
                          macros: testMacros)
     
     assertMacroExpansion("@IdentifiedEnumCases protocol Tomato {}",
-                         expandedSource: "protocol Tomato {\n}",
+                         expandedSource: "protocol Tomato {}",
                          diagnostics: [DiagnosticSpec(message: "`@IdentifiedEnumCasesMacro` can only be applied to an `enum`", line: 1, column: 1)],
                          macros: testMacros)
 
@@ -132,7 +132,7 @@ final class MacroTests: XCTestCase {
   
   func testEnumMustHaveCasesDiagnostic() {
     assertMacroExpansion("@IdentifiedEnumCases enum Tomato {}",
-                         expandedSource: "enum Tomato {\n}",
+                         expandedSource: "enum Tomato {}",
                          diagnostics: [DiagnosticSpec(message: "`@IdentifiedEnumCasesMacro` can only be applied to an `enum` with `case` statements", line: 1, column: 1)],
                          macros: testMacros)
   }

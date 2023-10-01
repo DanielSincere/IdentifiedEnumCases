@@ -81,11 +81,7 @@ public struct IdentifiedEnumCasesMacro: MemberMacro {
 
 private extension DeclGroupSyntax {
   var hasPublicModifier: Bool {
-    guard let modifiers = self.modifiers else {
-      return false
-    }
-    
-    return modifiers.children(viewMode: .fixedUp)
+    self.modifiers.children(viewMode: .fixedUp)
       .compactMap { syntax in
         syntax.as(DeclModifierSyntax.self)?
           .children(viewMode: .fixedUp)
