@@ -19,10 +19,16 @@ jobs:
             swift: "5.9"
 
     steps:
+      - uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: ${{ matrix.swift }}
+        if: ${{ matrix.os == "ubuntu-latest" }}
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
+        if: ${{ matrix.os != "ubuntu-latest" }}
 
+      - run: swift --version
       - uses: actions/checkout@v3
 
       - name: test
