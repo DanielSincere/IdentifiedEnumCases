@@ -33,7 +33,7 @@ let romaTomato = Nightshade.tomato(.roma)
 XCTAssertEquals(romaTomato.id, .tomato)
 ```
 
-because the macro generates to 
+because the macro generates to
 
 ```swift
 enum Nightshade {
@@ -43,24 +43,24 @@ enum Nightshade {
   enum PotatoVariety: CaseIterable {
     case russet, yukonGold, kennebec
   }
-  
+
   enum TomatoVariety: CaseIterable {
     case roma, heirloom, cherry
   }
-  
+
   enum ChiliVariety: CaseIterable {
     case jalapeño, arbol, habenero
   }
-  
-  var id: ID {
+
+  var caseID: CaseID {
     switch self {
     case .potato: .potato
     case .tomato: .tomato
     case .chili: .chili
     }
   }
-  
-  enum ID: String, Hashable, CaseIterable {
+
+  enum CaseID: String, Hashable, CaseIterable {
     case potato, tomato, jalapeño
   }
 }
@@ -70,8 +70,8 @@ Very exciting!
 
 ## Public visibility
 
-If the enum is `public`, the generated `ID` enum and the
-generated `id` accessor will also be `public`. For example,
+If the enum is `public`, the generated `CaseID` enum and the
+generated `caseID` accessor will also be `public`. For example,
 
 ```swift
 import IdentifiedEnumCases
@@ -90,13 +90,13 @@ public enum AppRoute {
   case item(ItemRoute)
   case user(UserRoute)
 
-  public var id: ID {
+  public var caseID: CaseID {
     switch self {
     case .item: .item
     case .user: .user
   }
 
-  public enum ID: String, Hashable, CaseIterable {
+  public enum CaseID: String, Hashable, CaseIterable {
     case item
     case user
   }
@@ -106,14 +106,14 @@ public enum AppRoute {
 ## Installation
 
 In `Package.swift`, add the package to your dependencies.
+
 ```
-.package(url: "https://github.com/FullQueueDeveloper/IdentifiedEnumCases.git", from: "0.1.1"),
+.package(url: "https://github.com/FullQueueDeveloper/IdentifiedEnumCases.git", from: "1.0.0"),
 ```
 
 And add `"IdentifiedEnumCases"` to the list of your target's dependencies.
 
 When prompted by Xcode, trust the macro.
-
 
 ## Swift macros?
 
