@@ -31,5 +31,8 @@ jobs:
       - name: build for release
         run: swift build -c release
 
-      - name: run example
-        run: swift run
+      - name: run example - nightshades
+        run: swift run nightshades
+
+      - name: run example - urls
+        run: swift run urls
