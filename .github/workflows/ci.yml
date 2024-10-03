@@ -14,9 +14,9 @@ jobs:
       matrix:
         include:
           - os: macos-13
-            swift: "5.9"
+            swift: "6.0"
           - os: ubuntu-latest
-            swift: "5.9"
+            swift: "6.0"
 
     steps:
       - uses: swift-actions/setup-swift@v1
