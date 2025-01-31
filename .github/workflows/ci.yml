@@ -15,6 +15,10 @@ jobs:
         include:
           - os: macos-13
             swift: "6.0"
+          - os: macos-14
+            swift: "6.0"
+          - os: macos-15
+            swift: "6.0"
           - os: ubuntu-latest
             swift: "6.0"
 
